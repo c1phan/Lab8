@@ -7,6 +7,35 @@ describe('Party Horn Tests', () => {
     expect(true).to.equal(true);
   });
 
+  //check if slider value is equal to number value when changed
+  it('Slider changes when volume input changes', () => {
+    cy.get('#volume-number').clear().type('75');
+    cy.get('#volume-slider').then($el => {
+      expect($el).to.have.value(75);
+    });
+  });
+
+
+  //check if number value is equal to slider value when changed
+  it('volume input changes when slider is changed', () => {
+    cy.get('#volume-slider')
+      .invoke('val', 33)
+      .trigger('input');
+    cy.get('#volume-number').then($el => {
+      expect($el).to.have.value(33);
+    });
+  });
+
+  //actual volume is changed when slider is changed
+  it('Volume of the <audio> element changed when the slider changed', () => {
+    cy.get('#volume-slider')
+      .invoke('val', 33)
+      .trigger('input');
+    cy.get('#horn-sound').then($el => {
+      expect($el).to.have.prop('volume', 0.33);
+    });
+  });
+
   //Test if the image and sound sources change when you select the party 
   //horn radio button
 
